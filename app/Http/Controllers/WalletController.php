@@ -8,6 +8,17 @@ use App\Http\Requests\UpdatewalletRequest;
 
 class WalletController extends Controller
 {
+
+    public function allTransaction(){
+        $wallets = wallet::get();
+        return response()->json([
+            'message' => 'here\'s all the transactions',
+            'data' => $wallets,
+        ]);
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *

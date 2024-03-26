@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompteController;
+use App\Http\Controllers\WalletController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,4 +30,6 @@ Route::middleware('auth:sanctum')->get('compte', [CompteController::class, 'show
 // Route::get('compte', [CompteController::class, 'show']);
 Route::post('compte/send-money', [CompteController::class, 'sendMoney'])->middleware('auth:sanctum');
 Route::get('compte/transactions', [CompteController::class, 'transactionHistory'])->middleware('auth:sanctum');
+
+Route::get('dashboard/admin',[WalletController::class,'allTransaction'])->middleware('auth:sanctum');
 
