@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('comptes', function (Blueprint $table) {
                 $table->id();
-                $table->date('date');
                 $table->float('solde');
                 $table->unsignedBigInteger('user_id');
                 $table->foreign('user_id')->references('id')->on('users');
