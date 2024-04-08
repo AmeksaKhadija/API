@@ -14,9 +14,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string',
         ]);
 
         try {
@@ -27,20 +27,21 @@ class AuthController extends Controller
             $user->role_id = 1 ;
             $user->save();
 
+            // return response()->json($user, 200);
+
             session([
                 'user_id' => $user->id,
                 'role_id' =>$user->role_id,
                 'name' =>$user->name,
 
             ]);
-
             $userCopmte = new Compte;
             $userCopmte->Solde = 100;
             $userCopmte->user_id= $user->id;
             $userCopmte->save();
 
             return response()->json([
-                'message' => 'Utilisateur enregistré avec succès',
+                'message' => 'Utilisateur enregistre avec succes',
                 'data'=>$user
             ], 201);
         } catch (\Exception $e) {
@@ -54,7 +55,7 @@ class AuthController extends Controller
 {
     $request->validate([
         'email' => 'required|string|email|max:255',
-        'password' => 'required|string|min:8',
+        'password' => 'required|string',
     ]);
 
     try {
@@ -68,7 +69,6 @@ class AuthController extends Controller
                 'message' => 'Login successful',
                 'token' => $token,
                 'user' => $user,
-                'test'=>Auth::user()
             ], 200);
         } else {
             return response()->json([

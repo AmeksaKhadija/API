@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\compte;
 use App\Models\wallet;
+use App\Models\User;
 use App\Http\Requests\StorecompteRequest;
 use App\Http\Requests\UpdatecompteRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class CompteController extends Controller
@@ -64,13 +66,13 @@ class CompteController extends Controller
          }
 
          try {
-             return response()->json([
-                 'message' => 'Details du compte de : ',
-                 'user' => [
-                    'name' => $user->name,
+            return response()->json([
+                'message' => 'Details du compte de : ',
+                'user' => [
+                'name' => $user->name,
                  ],
-                    'est'=>$compte
-             ], 200);
+                'est'=>$compte
+            ], 200);
          } catch (\Exception $e) {
              return response()->json([
                  'error' => 'Internal Server Error',
@@ -105,13 +107,12 @@ class CompteController extends Controller
                 'message' => 'Solde insuffisant.'
              ], 400);
          }
-        //   // Déduire le montant du solde du compte de l'expéditeur
+        // Déduire le montant du solde du compte de l'expéditeur
          $Useraccount->solde  -= $price;
          $Useraccount->save();
 
-        //  // Ajouter le montant au solde du compte du destinataire
+        // Ajouter le montant au solde du compte du destinataire
          $recipientCompte = Compte::where('user_id', $idreciever)->first();
-
 
         //enregistrement dans le wallet
         $UserWallet= new wallet;
@@ -124,8 +125,21 @@ class CompteController extends Controller
          $recipientCompte->solde += $price;
          $recipientCompte->save();
          return response()->json([
-            'message' => 'Transaction effectuée avec succès.'
+            'message' => 'Transaction effectuée avec succès.',
          ], 200);
+     }
+
+
+     public function getAllUsers()
+     {
+
+        $usersWithTransactions = User::with('transactions')->get();
+
+        return response()->json([
+            'message' => 'tous les utilisateurs ',
+            'data' => $usersWithTransactions,
+        ]);
+
      }
 
 

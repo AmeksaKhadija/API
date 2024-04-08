@@ -21,4 +21,8 @@ class wallet extends Model
     {
         return $this->BelongsTo(compte::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
+    }
 }

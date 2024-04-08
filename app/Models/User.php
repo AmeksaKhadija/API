@@ -33,9 +33,15 @@ class User extends Authenticatable
     }
 
 
+
     public function role():BelongsTo
     {
         return $this->BelongsTo(role::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Wallet::class, 'sender_id');
     }
     /**
      * The attributes that should be hidden for serialization.

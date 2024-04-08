@@ -33,3 +33,4 @@ Route::get('compte/transactions', [CompteController::class, 'transactionHistory'
 
 Route::get('dashboard/admin',[WalletController::class,'allTransaction'])->middleware('auth:sanctum');
 
+Route::get('/getAllUsers',[CompteController::class,'getAllUsers'])->middleware('auth:sanctum');

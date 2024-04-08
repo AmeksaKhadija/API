@@ -14,10 +14,12 @@ class WalletController extends Controller
         return response()->json([
             'message' => 'here\'s all the transactions',
             'data' => $wallets,
-        ]);
+        ],200);
     }
 
 
+
+   
 
     /**
      * Display a listing of the resource.
